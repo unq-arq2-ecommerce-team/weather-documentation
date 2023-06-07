@@ -10,6 +10,21 @@ volumes:
 
 services:
 
+  weather-loader-component:
+    build: ./WeatherLoaderComponent/
+    ports:
+      - 8081:8081
+    env_file:
+      - envs/env-weather-loader-component.env
+  weather-metrics-component:
+    build: ./WeatherMetricsComponent/
+    ports:
+      - 8082:8082
+    env_file:
+      - ./envs/env-weather-metrics-component.env
+    depends_on:
+      - weather-loader-component
+
   prometheus:
     image: prom/prometheus:v2.44.0
     container_name: prometheus

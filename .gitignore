@@ -1,3 +1,10 @@
 # IDEs
 .idea/
 .vscode/
+
+# envs (por tema credenciales)
+envs/
+
+# services
+WeatherLoaderComponent/
+WeatherMetricsComponent/
