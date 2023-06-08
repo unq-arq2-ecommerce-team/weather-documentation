@@ -16,6 +16,8 @@ services:
       - "8081:8081"
     env_file:
       - envs/env-weather-loader-component.env
+    networks:
+      - monitor-net
   weather-metrics-component:
     build: ./WeatherMetricsComponent/
     ports:
@@ -24,6 +26,8 @@ services:
       - ./envs/env-weather-metrics-component.env
     depends_on:
       - weather-loader-component
+    networks:
+      - monitor-net
 
   prometheus:
     image: prom/prometheus:v2.44.0
