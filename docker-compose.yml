@@ -13,13 +13,13 @@ services:
   weather-loader-component:
     build: ./WeatherLoaderComponent/
     ports:
-      - 8081:8081
+      - "8081:8081"
     env_file:
       - envs/env-weather-loader-component.env
   weather-metrics-component:
     build: ./WeatherMetricsComponent/
     ports:
-      - 8082:8082
+      - "8082:8082"
     env_file:
       - ./envs/env-weather-metrics-component.env
     depends_on:
@@ -102,3 +102,19 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
+
+  loki:
+    image: grafana/loki:2.8.0
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitor-net
+
+  promtail:
+    image: grafana/promtail:2.8.0
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - monitor-net
