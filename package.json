@@ -1,0 +1,18 @@
+{
+    "name": "weather documentation",
+    "version": "1.0.0",
+    "description": "API Use Cases",
+
+    "license": "MIT",
+    "engines": {
+      "node": ">=12.0.0"
+    },
+    "scripts": {
+      "cases": "bash ./run-cases.sh"
+    },
+    "dependencies": {
+      "artillery": "^1.6.1",
+      "axios": "^0.21.1",
+      "dotenv": "^8.2.0"
+    }
+  }

@@ -1,0 +1,39 @@
+config:
+  target: "http://localhost:8082/api/v1/weather/city/Quilmes/temperature"
+  http:
+    timeout: 600
+  phases:
+    - duration: 60
+      arrivalRate: 2
+      name: Warm up
+    - duration: 120
+      arrivalRate: 2
+      rampTo: 15
+      name: Ramp up load
+    - duration: 420
+      arrivalRate: 10
+      name: Sustained load
+    - duration: 420
+      arrivalRate: 15
+      name: Heavy
+    - duration: 420
+      arrivalRate: 12
+      rampTo: 15
+      name: Crash
+  environments:
+    dev:
+      target: "http://localhost:8082/api/v1/weather/city/Quilmes/temperature"
+    skipHeader: true
+  processor: "./utils.js"
+scenarios:
+  - name: "Request current temperature"
+    flow:
+      - get:
+          url: "/"
+          afterResponse: "printErrorStatus"
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: "city"
+            - hasProperty: "temperature"
+            - hasProperty: "timestamp"

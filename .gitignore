@@ -8,3 +8,7 @@ envs/
 # services
 WeatherLoaderComponent/
 WeatherMetricsComponent/
+
+node_modules/
+
+package-lock.json

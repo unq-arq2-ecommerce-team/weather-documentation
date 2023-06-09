@@ -13,15 +13,15 @@ services:
   weather-loader-component:
     build: ./WeatherLoaderComponent/
     ports:
-      - "8081:8081"
-    env_file:
-      - envs/env-weather-loader-component.env
+      - 8081:8081
     networks:
       - monitor-net
+    env_file:
+      - envs/env-weather-loader-component.env
   weather-metrics-component:
     build: ./WeatherMetricsComponent/
     ports:
-      - "8082:8082"
+      - 8082:8082
     env_file:
       - ./envs/env-weather-metrics-component.env
     depends_on:
@@ -43,6 +43,8 @@ services:
       - '--storage.tsdb.retention.time=200h'
       - '--web.enable-lifecycle'
     restart: unless-stopped
+    ports:
+      - 9090:9090
     expose:
       - 9090
     networks:
