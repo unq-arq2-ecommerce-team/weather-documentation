@@ -11,14 +11,18 @@ volumes:
 services:
 
   weather-loader-component:
+    container_name: weather-loader-component
     build: ./WeatherLoaderComponent/
     ports:
       - "8081:8081"
     env_file:
-      - envs/env-weather-loader-component.env
+      - ./envs/env-weather-loader-component.env
     networks:
       - monitor-net
+    labels:
+      org.label-schema.group: "weather-services"
   weather-metrics-component:
+    container_name: weather-metrics-component
     build: ./WeatherMetricsComponent/
     ports:
       - "8082:8082"
@@ -28,6 +32,8 @@ services:
       - weather-loader-component
     networks:
       - monitor-net
+    labels:
+      org.label-schema.group: "weather-services"
 
   prometheus:
     image: prom/prometheus:v2.44.0
@@ -45,10 +51,29 @@ services:
     restart: unless-stopped
     expose:
       - 9090
+    ports:
+      - "9090:9090"
     networks:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
+
+  blackbox:
+    container_name: blackbox
+    image: prom/blackbox-exporter:v0.24.0
+    command:
+      - '--config.file=/etc/blackbox/blackbox.yml'
+    volumes:
+      - './blackbox/blackbox.yml:/etc/blackbox/blackbox.yml'
+    depends_on:
+      - weather-metrics-component
+      - weather-loader-component
+    ports:
+      - "9115:9115"
+    networks:
+        - monitor-net
+    labels:
+        org.label-schema.group: "monitoring"
 
   nodeexporter:
     image: prom/node-exporter:v0.18.1
@@ -114,6 +139,8 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
 
   promtail:
     image: grafana/promtail:2.8.0
@@ -122,3 +149,19 @@ services:
     command: -config.file=/etc/promtail/config.yml
     networks:
       - monitor-net
+
+  alertmanager:
+    image: prom/alertmanager:v0.25.0
+    container_name: alertmanager
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    restart: unless-stopped
+    expose:
+      - 9093
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"

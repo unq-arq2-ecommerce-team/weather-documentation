@@ -1,6 +1,6 @@
 global:
-  scrape_interval:     15s
-  evaluation_interval: 15s
+  scrape_interval:     10s
+  evaluation_interval: 10s
 
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
@@ -28,6 +28,24 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
+# checks "ping" status of the targets
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    scrape_interval: 5s
+    params:
+      module: [ http_2xx ]
+    static_configs:
+      - targets:
+        - weather-loader-component:8081/
+        - weather-metrics-component:8082/
+    relabel_configs:
+      - source_labels: [ __address__ ]
+        target_label: __param_target
+      - source_labels: [ __param_target ]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+
 #  - job_name: 'pushgateway'
 #    scrape_interval: 10s
 #    honor_labels: true
@@ -35,9 +53,9 @@ scrape_configs:
 #      - targets: ['pushgateway:9091']
 
 
-#alerting:
-#  alertmanagers:
-#    - scheme: http
-#      static_configs:
-#        - targets:
-#            - 'alertmanager:9093'
+alerting:
+  alertmanagers:
+    - scheme: http
+      static_configs:
+        - targets:
+            - 'alertmanager:9093'
