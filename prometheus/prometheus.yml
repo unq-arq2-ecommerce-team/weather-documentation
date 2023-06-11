@@ -5,7 +5,7 @@ global:
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
-    monitor: 'docker-host-alpha'
+    monitor: "docker-host-alpha"
 
 # Load and evaluate rules in this file every 'evaluation_interval' seconds.
 rule_files:
@@ -13,23 +13,23 @@ rule_files:
 
 # A scrape configuration containing exactly one endpoint to scrape.
 scrape_configs:
-  - job_name: 'nodeexporter'
+  - job_name: "nodeexporter"
     scrape_interval: 5s
     static_configs:
-      - targets: ['nodeexporter:9100']
+      - targets: ["nodeexporter:9100"]
 
-  - job_name: 'cadvisor'
+  - job_name: "cadvisor"
     scrape_interval: 5s
     static_configs:
-      - targets: ['cadvisor:8080']
+      - targets: ["cadvisor:8080"]
 
-  - job_name: 'prometheus'
+  - job_name: "prometheus"
     scrape_interval: 10s
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ["localhost:9090"]
 
 # checks "ping" status of the targets
-  - job_name: 'blackbox'
+  - job_name: "blackbox"
     metrics_path: /probe
     scrape_interval: 5s
     params:
@@ -46,16 +46,15 @@ scrape_configs:
       - target_label: __address__
         replacement: blackbox:9115
 
-#  - job_name: 'pushgateway'
-#    scrape_interval: 10s
-#    honor_labels: true
-#    static_configs:
-#      - targets: ['pushgateway:9091']
-
+  - job_name: weather-metrics-component
+    static_configs:
+      - targets:
+          - weather-metrics-component:8082
+    metrics_path: /metrics
 
 alerting:
   alertmanagers:
     - scheme: http
       static_configs:
         - targets:
-            - 'alertmanager:9093'
+            - "alertmanager:9093"
