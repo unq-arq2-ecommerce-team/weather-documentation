@@ -171,9 +171,11 @@
               "type": "prometheus",
               "uid": "PBFA97CFB590B2093"
             },
-            "expr": "(\n  sum(rate(http_request_duration_seconds_bucket{le=\"0.03\"}[2m])) by (job)\n+\n  sum(rate(http_request_duration_seconds_bucket{le=\"1\"}[2m])) by (job)\n)\n  / 2 / sum(rate(http_request_duration_seconds_count[2m])) by (job)",
+            "editorMode": "code",
+            "expr": "(\n  sum(rate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m])) by (job) +\n  (\n    sum(rate(http_request_duration_seconds_bucket{le=\"1\"}[2m])) by (job) - \n    sum(rate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m])) by (job)\n  ) / 2\n) / \nsum(rate(http_request_duration_seconds_count[2m])) by (job)\n",
             "interval": "",
             "legendFormat": "Tiempo de respuesta",
+            "range": true,
             "refId": "A"
           }
         ],
@@ -325,7 +327,7 @@
               "uid": "PBFA97CFB590B2093"
             },
             "editorMode": "code",
-            "expr": "  sum(rate(http_request_duration_seconds_bucket{le=\"0.03\"}[5m])) by (job)\n/\n  sum(rate(http_request_duration_seconds_count[5m])) by (job)",
+            "expr": "  sum(rate(http_request_duration_seconds_bucket{le=\"0.05\"}[5m])) by (job)\n/\n  sum(rate(http_request_duration_seconds_count[5m])) by (job)",
             "hide": false,
             "legendFormat": "< 0.03 seg",
             "range": true,
@@ -490,6 +492,6 @@
     "timezone": "",
     "title": "App metrics Dashboard",
     "uid": "ZgBkHNhMz",
-    "version": 5,
+    "version": 10,
     "weekStart": ""
   }
