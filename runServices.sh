@@ -65,13 +65,14 @@ then
     fi
     > "./envs/env-weather-loader-component.env"
     > "./envs/env-weather-metrics-component.env"
-    echo "[INFO] envs file created for docker-compose"
+    echo "WEATHER_CURRENT_TEMP_URL=http://weather-loader-component:8081/api/weather/city/{city}/temperature" >> "./envs/env-weather-metrics-component.env"
+    echo "WEATHER_AVG_TEMP_URL=http://weather-loader-component:8081/api/weather/city/{city}/temperature/average" >> "./envs/env-weather-metrics-component.env"
+    echo "[INFO] envs file created with some default values for docker-compose"
 else
     echo "[INFO] docker-compose envs file found"
 fi
 
 echo "[INFO] - Executing docker-compose: "
-
 # Build and instance containers with docker-compose info
 docker-compose up -d --build
 
