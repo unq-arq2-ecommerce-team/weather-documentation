@@ -55,6 +55,21 @@ then
     exit 1
 fi
 
+# Eval if exists envs folder with two envs file for not broke docker-compose and load default envs
+if [ ! -f "./envs/env-weather-loader-component.env" ] || [ ! -f "./envs/env-weather-metrics-component.env" ]
+then
+    echo "[INFO] not found envs file, creating for not break docker-compose"
+    if [ ! -d "./envs" ] 
+    then
+        mkdir "./envs"
+    fi
+    > "./envs/env-weather-loader-component.env"
+    > "./envs/env-weather-metrics-component.env"
+    echo "[INFO] envs file created for docker-compose"
+else
+    echo "[INFO] docker-compose envs file found"
+fi
+
 echo "[INFO] - Executing docker-compose: "
 
 # Build and instance containers with docker-compose info
