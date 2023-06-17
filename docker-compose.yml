@@ -167,12 +167,17 @@ services:
       org.label-schema.group: "monitoring"
 
   otel-collector:
-    image: otel/opentelemetry-collector:0.32.0
+    image: otel/opentelemetry-collector:0.79.0
     command: [ "--config=/etc/otel-collector.yaml" ]
     volumes:
       - ./otel/otel-collector.yaml:/etc/otel-collector.yaml
     networks:
       - monitor-net
+    ports:
+      - "4317"
+      - "4318"
+    depends_on:
+      - tempo
 
   tempo:
     image: grafana/tempo:latest
