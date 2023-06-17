@@ -5,8 +5,7 @@ receivers:
 exporters:
   otlp:
     endpoint: tempo:4317
-    tls:
-      insecure: true
+
 service:
   pipelines:
     traces:

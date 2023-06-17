@@ -52,6 +52,10 @@ scrape_configs:
           - weather-metrics-component:8082
     metrics_path: /metrics
 
+  - job_name: "tempo"
+    static_configs:
+      - targets: [ "tempo:3200" ]
+
 alerting:
   alertmanagers:
     - scheme: http
