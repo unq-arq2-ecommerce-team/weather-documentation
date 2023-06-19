@@ -165,3 +165,31 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.79.0
+    command: [ "--config=/etc/otel-collector.yaml" ]
+    volumes:
+      - ./otel/otel-collector.yaml:/etc/otel-collector.yaml
+    networks:
+      - monitor-net
+    ports:
+      - "4317"
+      - "4318"
+    depends_on:
+      - tempo
+
+  tempo:
+    image: grafana/tempo:latest
+    command: [ "--config.file=/etc/tempo/tempo.yaml" ]
+    volumes:
+      - ./tempo:/etc/tempo
+      - ./tempo-data:/tmp/tempo
+    ports:
+      - "14268"  # jaeger ingest
+      - "3200"   # tempo
+      - "4317"  # otlp grpc
+      - "4318"  # otlp http
+      - "9411"   # zipkin
+    networks:
+      - monitor-net

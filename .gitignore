@@ -12,3 +12,6 @@ WeatherMetricsComponent/
 node_modules/
 
 package-lock.json
+
+# tempo data
+tempo-data/
