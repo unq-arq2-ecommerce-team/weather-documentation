@@ -90,6 +90,17 @@ Para las métricas de los Weather services, se envían directamente a Prometheus
 
 ## Distributed tracing 
 
+Implementado con libs de [OpenTelemetry](https://opentelemetry.io/) para Go + OTel Collector + [Grafana Tempo](https://grafana.com/docs/tempo/latest/).
+
+**OpenTelemetry**: También conocido como OTel. Su objetivo es proveer un set de herramientas, APIs y librerías para enviar métricas a un backend de observabilidad.
+
+![img_1.png](img_1.png)
+
+**Grafana Tempo**: Es un backend de trazas distribuido de código abierto. Soporta protocolos de trazas como Jaeger, Zipkin, y OpenTelemetry. 
+
+![img_2.png](img_2.png)
+
+
 ## Alerting
 
 Implementado con Prometheus + Blackbox Exporter + Alertmanager.

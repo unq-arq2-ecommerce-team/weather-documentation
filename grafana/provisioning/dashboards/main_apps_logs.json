@@ -52,7 +52,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{app=\"weather-loader-component\"} |= ``",
+          "expr": "{app=\"WeatherLoaderComponent\"} |= ``",
           "key": "Q-ffbad58b-ed38-40aa-a135-3d4f40954626-0",
           "queryType": "range",
           "refId": "A"
@@ -91,7 +91,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "builder",
-          "expr": "{app=\"weather-metrics-component\"} |= ``",
+          "expr": "{app=\"WeatherMetricsComponent\"} |= ``",
           "key": "Q-ffbad58b-ed38-40aa-a135-3d4f40954626-0",
           "queryType": "range",
           "refId": "A"
