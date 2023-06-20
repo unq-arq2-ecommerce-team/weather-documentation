@@ -72,11 +72,10 @@ Varias de las estrategias se implementaron con [Prometheus](https://prometheus.i
 
 ## Log aggregation
 
-Implementado con [Loki](https://grafana.com/oss/loki/) + Grafana.
+Implementado con [Loki](https://grafana.com/oss/loki/) + [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/) + Grafana.
 
 **Loki**: es como Prometheus pero para logs. Recolecta logs de distintos lugares y los almacena en una base de datos de series de tiempo.
-
-En nuestro caso enviamos los logs directamente a Loki desde los servicios utilizando un "hook" de logrus.
+**Promtail**: Agente de recolección de logs para enviar a Loki.
 
 ## Metrics aggregation
 
