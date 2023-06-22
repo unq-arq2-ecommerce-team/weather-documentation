@@ -21,6 +21,16 @@ groups:
       summary: "Weather Service {{ $labels.instance }} is down"
       description: "The service {{ $labels.instance }} is not responding to the Blackbox probe."
 
+- name: circuit_breaker
+  rules:
+  - alert: circuit_breaker_open
+    expr: circuit_breaker_status == 2
+    for: 10s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Circuit Beaker in {{ $labels.instance }} is open"
+      description: "A Circuit Breaker has been open for more than 10 seconds"
 
 
 - name: host
