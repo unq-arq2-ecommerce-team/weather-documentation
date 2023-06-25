@@ -2,6 +2,10 @@
 
 Documentación de los servicios del TP Final Arquitectura 2 (openweathermap)
 
+### Informe
+
+<< poner link al pdf >>
+
 ### Docker compose template
 
 Se tomó de modelo este repositorio:
@@ -49,7 +53,7 @@ Limpiar y clonar repos
 
     ```./runServices.sh --clone```
 
-4. Una vez levantados todos los containers, dirigirse a http://localhost:3000
+4. Una vez levantados todos los containers, dirigirse a http://localhost:3000 para ingresar a grafana
 
 5. Loggear con las credenciales: `admin / admin`
 
