@@ -53,7 +53,6 @@ services:
       logging: "promtail"
       logging_jobname: "containerlogs"
 
-
   prometheus:
     image: prom/prometheus:v2.44.0
     container_name: prometheus
@@ -233,3 +232,11 @@ services:
       org.label-schema.group: "monitoring"
       logging: "promtail"
       logging_jobname: "containerlogs"
+
+  redis-exporter:
+    image: oliver006/redis_exporter
+    command: -redis.addr redis://redis:6379 -redis.password lqelGuT43CugUCsTlTvw9zygmQtBOSrr
+    ports:
+      - "9121:9121"
+    networks:
+      - monitor-net
