@@ -33,7 +33,7 @@ git clone https://github.com/unq-arq2-ecommerce-team/weather-documentation.git`
 cd ./weather-documentation
 ```
 
-**Opcional**: Evitar esta parte a menos que se tenga error en la seccion 3. Clonar repositorios manual si no funciona el script flag "--c" o "--clone" del bash script "runServices.sh". (Si tira error de permisos, pedir credenciales)
+**Opcional**: Evitar esta parte a menos que se tenga error en la seccion 3. Clonar repositorios manual si no funciona el script flag "-c" o "--clone" del bash script "runServices.sh". (Si tira error de permisos, pedir credenciales)
 
 ```bash
 git clone https://github.com/unq-arq2-ecommerce-team/WeatherLoaderComponent
