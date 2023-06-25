@@ -3,10 +3,6 @@
 # Args:
 #   * -c or --clone = for clean and clone services repositories
 #       example: --clone
-#   * -u or --user = for add user mongo credentials user
-#       example: -u cassanojoseluis
-#   * -p or --pass = for add user mongo credentials password
-#       example: -p sarasadfas
 
 
 # var para clonar repositorios
@@ -50,8 +46,8 @@ fi
 # Eval if exist services cloned
 if [ ! -d "./WeatherLoaderComponent" ] || [ ! -d "./WeatherMetricsComponent" ]
 then
-    echo "[ERROR] - Step of clone services failed"
-    echo "[INFO] - Please read README.md and complete step 1"
+    echo "[ERROR] - Step of clone services failed. Please contact with administrator or clone manually repositories."
+    echo "[INFO] - Please read README.md and complete step 1 manually"
     exit 1
 fi
 
