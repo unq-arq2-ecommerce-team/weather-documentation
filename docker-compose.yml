@@ -33,12 +33,26 @@ services:
       - ./envs/env-weather-metrics-component.env
     depends_on:
       - weather-loader-component
+      - redis
     networks:
       - monitor-net
     labels:
       org.label-schema.group: "weather-services"
       logging: "promtail"
       logging_jobname: "containerlogs"
+
+  redis:
+    image: "redis:7.0.11-alpine"
+    networks:
+      - monitor-net
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass lqelGuT43CugUCsTlTvw9zygmQtBOSrr
+    labels:
+      org.label-schema.group: "weather-services"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
+
 
   prometheus:
     image: prom/prometheus:v2.44.0
