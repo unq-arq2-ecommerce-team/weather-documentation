@@ -19,7 +19,7 @@ https://github.com/Einsteinish/Docker-Compose-Prometheus-and-Grafana
 - Git
 - Docker
 - Docker-compose
-- MongoCLI y DB (opcional)
+- MongoDB (opcional, si se tiene cluster)
 
 ### Instrucciones
 
@@ -54,15 +54,21 @@ products-orders-service recomendacion al usar docker-compose:
 
 Dar permisos al script:
 
-    ```chmod +X ./runServices.sh```
+```bash
+chmod +X ./runServices.sh
+```
 
 Sin limpiar ni clonar repos
 
-    ```./runServices.sh```
+```bash
+./runServices.sh
+```
 
 Limpiar y clonar repos
 
-    ```./runServices.sh --clone```
+```bash
+./runServices.sh --clone
+```
 
 4. Una vez levantados todos los containers, dirigirse a http://localhost:3000 para ingresar a grafana
 
