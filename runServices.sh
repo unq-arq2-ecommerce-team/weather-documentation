@@ -3,10 +3,6 @@
 # Args:
 #   * -c or --clone = for clean and clone services repositories
 #       example: --clone
-#   * -u or --user = for add user mongo credentials user
-#       example: -u cassanojoseluis
-#   * -p or --pass = for add user mongo credentials password
-#       example: -p sarasadfas
 
 
 # var para clonar repositorios
@@ -50,8 +46,8 @@ fi
 # Eval if exist services cloned
 if [ ! -d "./WeatherLoaderComponent" ] || [ ! -d "./WeatherMetricsComponent" ]
 then
-    echo "[ERROR] - Step of clone services failed"
-    echo "[INFO] - Please read README.md and complete step 1"
+    echo "[ERROR] - Step of clone services failed. Please contact with administrator or clone manually repositories."
+    echo "[INFO] - Please read README.md and complete step 1 manually"
     exit 1
 fi
 
@@ -63,16 +59,21 @@ then
     then
         mkdir "./envs"
     fi
+    # Creating empty files
     > "./envs/env-weather-loader-component.env"
     > "./envs/env-weather-metrics-component.env"
+    # Set up default envs in files
     echo "WEATHER_CURRENT_TEMP_URL=http://weather-loader-component:8081/api/weather/city/{city}/temperature" >> "./envs/env-weather-metrics-component.env"
     echo "WEATHER_AVG_TEMP_URL=http://weather-loader-component:8081/api/weather/city/{city}/temperature/average" >> "./envs/env-weather-metrics-component.env"
+    echo "REDIS_URI=redis://default:lqelGuT43CugUCsTlTvw9zygmQtBOSrr@redis:6379" >> "./envs/env-weather-metrics-component.env"
     echo "[INFO] envs file created with some default values for docker-compose"
 else
+    # Skip default envs
     echo "[INFO] docker-compose envs file found"
 fi
 
 echo "[INFO] - Executing docker-compose: "
+echo "[WARN] - Overriding envs with .env files from folder ./envs, PLEASE VERIFY ENVS FILES from that folder!!!!"
 # Build and instance containers with docker-compose info
 docker-compose up -d --build
 
