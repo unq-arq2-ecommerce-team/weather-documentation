@@ -2,6 +2,12 @@
 
 Documentación de los servicios del TP Final Arquitectura II (openweathermap)
 
+## Integrantes
+
+- Lucas Matwiejczuk
+- Alvaro Piorno
+- Jose Cassano
+
 ## Documentación
 
 [Ir a la seccion de documentación](./documents)
