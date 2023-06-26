@@ -47,7 +47,7 @@ services:
       - monitor-net
     ports:
       - "6379:6379"
-    command: redis-server --save 20 1 --loglevel warning --requirepass lqelGuT43CugUCsTlTvw9zygmQtBOSrr
+    command: redis-server --save 20 1 --loglevel warning --requirepass lqelGuT43CugUCsTlTvw9zygmQtBOSrr --maxmemory 16mb
     labels:
       org.label-schema.group: "weather-services"
       logging: "promtail"
