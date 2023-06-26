@@ -76,14 +76,23 @@ Limpiar y clonar repos
 
 ## Ejecucion Tests de carga y métricas
 
-En la carpeta artillery se encuentran archivos para ejecutar para los tests de carga, es necesario instalar las dependencias y además artillery de forma global para ejercutarlos por comando.
+En la carpeta artillery se encuentran archivos para ejecutar para los tests de carga. Es necesario instalar las dependencias y además artillery de forma global para ejercutarlos por comando.
+
+### Docker
+
+Estar en la carpeta del presente repositorio. Ahi ejecutar el siguiente comando (reemplazando `<test-file>` por el nombre del archivo del test deseado a ejecutar):  
+
+```bash
+docker run --rm -it -v ${PWD}:/repo artilleryio/artillery:latest run /repo/artillery/<test-file>.yml
+```
+
+### Local
 
 ```bash
 npm install -g artillery
 npm install
 ```
-
-Luego, reemplazar `<file>` por el nombre del archivo del test deseado a ejecutar.
+Luego, reemplazar `<test-file>` por el nombre del archivo del test deseado a ejecutar.
 ```bash
-artillery run artiller/<file>.yml
+artillery run artiller/<test-file>.yml
 ```
