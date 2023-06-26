@@ -94,5 +94,5 @@ npm install
 ```
 Luego, reemplazar `<test-file>` por el nombre del archivo del test deseado a ejecutar.
 ```bash
-artillery run artiller/<test-file>.yml
+artillery run artillery/<test-file>.yml
 ```
