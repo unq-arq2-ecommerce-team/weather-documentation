@@ -1,6 +1,16 @@
 # weather-documentation
 
-Documentación de los servicios del TP Final Arquitectura 2 (openweathermap)
+Documentación de los servicios del TP Final Arquitectura II (openweathermap)
+
+## Integrantes
+
+- Lucas Matwiejczuk
+- Alvaro Piorno
+- Jose Cassano
+
+## Documentación
+
+[Ir a la seccion de documentación](./documents)
 
 ### Docker compose template
 
@@ -15,19 +25,30 @@ https://github.com/Einsteinish/Docker-Compose-Prometheus-and-Grafana
 - Git
 - Docker
 - Docker-compose
-- MongoCLI y DB (opcional)
+- MongoDB (opcional, si se tiene cluster)
 
 ### Instrucciones
 
-1. Clonar el presente repositorio y ejecutar los siguientes pasos dentro de este.
+1. Clonar el presente repositorio (si tira error de permisos, pedir credenciales) y ejecutar los siguientes pasos dentro de este. Es decir, en una terminal ejecutar: 
 
-`git clone https://github.com/unq-arq2-ecommerce-team/weather-documentation.git`
+```bash
+git clone https://github.com/unq-arq2-ecommerce-team/weather-documentation.git`
+```
 
-`cd ./weather-documentation`
+```bash
+cd ./weather-documentation
+```
 
-2. Modificar las envs de "./envs/env-{servicio}.env" de cada servicio con los datos correspondientes.
+**Opcional**: Evitar esta parte a menos que se tenga error en la seccion 3. Clonar repositorios manual si no funciona el script flag "-c" o "--clone" del bash script "runServices.sh". (Si tira error de permisos, pedir credenciales)
 
-Recomendacion: Cambiar en envs "localhost" con "servicio". Ejemplo:
+```bash
+git clone https://github.com/unq-arq2-ecommerce-team/WeatherLoaderComponent
+git clone https://github.com/unq-arq2-ecommerce-team/WeatherMetricsComponent
+```
+
+2. Modificar las envs de "./envs/env-{servicio}.env" de cada servicio con los datos correspondientes, o bien que matchee con la ruta especificada en el docker-compose (en el campo yaml "env_file"). Si estos archivos no existen el script runServices.sh los genera automaticamente, pero habria que validar si las envs son las correctas o deseadas (puertos, hosts, etc).
+
+Recomendacion: Cambiar en envs "localhost" con el nombre del servicio del docker-compose. Ejemplo:
 
 products-orders-service recomendacion al usar docker-compose:
 
@@ -39,78 +60,76 @@ products-orders-service recomendacion al usar docker-compose:
 
 Dar permisos al script:
 
-    ```chmod +X ./runServices.sh```
+```bash
+chmod +X ./runServices.sh
+```
 
 Sin limpiar ni clonar repos
 
-    ```./runServices.sh```
+```bash
+./runServices.sh
+```
 
 Limpiar y clonar repos
 
-    ```./runServices.sh --clone```
+```bash
+./runServices.sh --clone
+```
 
-4. Una vez levantados todos los containers, dirigirse a http://localhost:3000
+4. Una vez levantados todos los containers, se pueden ingresar a los siguientes servicios:
 
-5. Loggear con las credenciales: `admin / admin`
+| Servicio                      | Endpoint                              |
+| ----------------------------- | ------------------------------------- |
+| WeatherLoaderService Swagger  | http://localhost:8081/docs/index.html |
+| WeatherMetricsService Swagger | http://localhost:8082/docs/index.html |
+| Grafana                       | http://localhost:3000                 |
+| Prometheus                    | http://localhost:9090                 |
 
-### Test de carga y métricas
+Credenciales:
 
-En la carpeta artillery se encuentran archivos para ejecutar para los tests de carga, es necesario instalar als dependencias y además artillery de forma global para ejercutarlos por comando.
+```
+user: admin
+pass: admin
+```
+
+Nota: Si algun servicio no responde, revisar docker-compose.yml con sus puertos y salud del container.
+
+## Ejecucion Tests de carga y métricas
+
+En la carpeta artillery se encuentran archivos para ejecutar para los tests de carga. Es necesario instalar las dependencias y además artillery de forma global para ejercutarlos por comando.
+
+### **Docker**
+
+Estar en la carpeta del presente repositorio. Ahi ejecutar el siguiente comando (reemplazando `<test-file>` por el nombre del archivo del test deseado a ejecutar):  
+
+```bash
+docker run --rm -it -v ${PWD}:/repo artilleryio/artillery:latest run /repo/artillery/<test-file>.yml
+```
+
+### **Local**
 
 ```bash
 npm install -g artillery
 npm install
-artillery run artiller/file.yml
+```
+Luego, reemplazar `<test-file>` por el nombre del archivo del test deseado a ejecutar.
+```bash
+artillery run artillery/<test-file>.yml
 ```
 
-# Implementación Estrategias de Observabilidad
- 
-Varias de las estrategias se implementaron con [Prometheus](https://prometheus.io/) y [Grafana](https://grafana.com/).
+### *Opcional*:
 
-- **Prometheus**: Sistema de monitoreo de código abierto. Recopila métricas de distintos lugares con técnica de "scrape" y las almacena en una base de datos de series de tiempo. 
-- **Grafana**: Herramienta de visualización de datos de código abierto. Utiliza Prometheus como fuente de datos.
+Generar reporte (agregar flag `--output filename.json`)
 
-## Log aggregation
+Ejemplo:
+```bash
+artillery run --output report.json artillery/<test-file>.yml
+```
 
-Implementado con [Loki](https://grafana.com/oss/loki/) + Grafana.
+Visualizar reporte
 
-**Loki**: es como Prometheus pero para logs. Recolecta logs de distintos lugares y los almacena en una base de datos de series de tiempo.
+```bash
+artillery report --output report.html report.json
+```
 
-En nuestro caso enviamos los logs directamente a Loki desde los servicios utilizando un "hook" de logrus.
-
-## Metrics aggregation
-
-Implementado con Prometheus + cAdvisor + node-exporter + Grafana.
-
-**cAdvisor**: Recolecta métricas de los contenedores de Docker.
-
-**node-exporter**: Recolecta métricas del Docker host.
-
-Para las métricas de los Weather services, se envían directamente a Prometheus desde los servicios mediante un middleware.
-
-## Distributed tracing 
-
-Implementado con libs de [OpenTelemetry](https://opentelemetry.io/) para Go + OTel Collector + [Grafana Tempo](https://grafana.com/docs/tempo/latest/).
-
-**OpenTelemetry**: También conocido como OTel. Su objetivo es proveer un set de herramientas, APIs y librerías para enviar métricas a un backend de observabilidad.
-
-![img_1.png](img_1.png)
-
-**Grafana Tempo**: Es un backend de trazas distribuido de código abierto. Soporta protocolos de trazas como Jaeger, Zipkin, y OpenTelemetry. 
-
-![img_2.png](img_2.png)
-
-
-## Alerting
-
-Implementado con Prometheus + Blackbox Exporter + Alertmanager.
-
-**Blackbox Exporter**: Permite "sondear" distintos servicios utilizando HTTP, HTTPS, DNS, TCP y ICMP.
-**Alertmanager**: Recibe alertas de Prometheus, las gestiona, y las envía a distintos canales (Slack, email, Webhooks, etc).
-
-Configuramos un "scrape" de Blackbox en Prometheus para que sondee los servicios del Tiempo (hacer un GET de healthcheck). 
-En caso de no responder, se dispara una alerta en Prometheus.
-La alerta llega a Prometheus y es administrada por Alertmanager, que tiene configurado un webhook para enviar las alertas a Discord.
-Cada vez que se dispara una alerta (o hay una recuperación), se envía un mensaje al canal de Discord
-
-![img.png](img.png)
+Muchas metricas ya se proveen en grafana, pero pueden servir para comparar.

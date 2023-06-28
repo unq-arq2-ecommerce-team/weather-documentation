@@ -23,6 +23,9 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "weather-services"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
+
   weather-metrics-component:
     container_name: weather-metrics-component
     build: ./WeatherMetricsComponent/
@@ -32,11 +35,25 @@ services:
       - ./envs/env-weather-metrics-component.env
     depends_on:
       - weather-loader-component
-      - cache
+      - redis
     networks:
       - monitor-net
     labels:
       org.label-schema.group: "weather-services"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
+
+  redis:
+    image: "redis:7.0.11-alpine"
+    networks:
+      - monitor-net
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass lqelGuT43CugUCsTlTvw9zygmQtBOSrr --maxmemory 16mb
+    labels:
+      org.label-schema.group: "weather-services"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
 
   prometheus:
     image: prom/prometheus:v2.44.0
@@ -60,6 +77,8 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
 
   blackbox:
     container_name: blackbox
@@ -77,6 +96,8 @@ services:
         - monitor-net
     labels:
         org.label-schema.group: "monitoring"
+        logging: "promtail"
+        logging_jobname: "containerlogs"
 
   nodeexporter:
     image: prom/node-exporter:v0.18.1
@@ -146,12 +167,19 @@ services:
       org.label-schema.group: "monitoring"
 
   promtail:
+    container_name: promtail
     image: grafana/promtail:2.8.0
     volumes:
+      - ./promtail:/etc/promtail
       - /var/log:/var/log
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+
     command: -config.file=/etc/promtail/config.yml
     networks:
       - monitor-net
+    depends_on:
+      - loki
 
   alertmanager:
     image: prom/alertmanager:v0.25.0
@@ -168,6 +196,8 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
 
   otel-collector:
     image: otel/opentelemetry-collector:0.79.0
@@ -181,6 +211,10 @@ services:
       - "4318"
     depends_on:
       - tempo
+    labels:
+      org.label-schema.group: "monitoring"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
 
   tempo:
     image: grafana/tempo:latest
@@ -196,14 +230,15 @@ services:
       - "9411"   # zipkin
     networks:
       - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"
+      logging: "promtail"
+      logging_jobname: "containerlogs"
 
-  cache:
-    image: redis:6.2-alpine
-    restart: always
+  redis-exporter:
+    image: oliver006/redis_exporter
+    command: -redis.addr redis://redis:6379 -redis.password lqelGuT43CugUCsTlTvw9zygmQtBOSrr
     ports:
-      - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass lqelGuT43CugUCsTlTvw9zygmQtBOSrr
+      - "9121:9121"
     networks:
       - monitor-net
-    volumes: 
-      - cache:/data
