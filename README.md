@@ -98,7 +98,7 @@ Nota: Si algun servicio no responde, revisar docker-compose.yml con sus puertos 
 
 En la carpeta artillery se encuentran archivos para ejecutar para los tests de carga. Es necesario instalar las dependencias y además artillery de forma global para ejercutarlos por comando.
 
-### Docker
+### **Docker**
 
 Estar en la carpeta del presente repositorio. Ahi ejecutar el siguiente comando (reemplazando `<test-file>` por el nombre del archivo del test deseado a ejecutar):  
 
@@ -106,7 +106,7 @@ Estar en la carpeta del presente repositorio. Ahi ejecutar el siguiente comando 
 docker run --rm -it -v ${PWD}:/repo artilleryio/artillery:latest run /repo/artillery/<test-file>.yml
 ```
 
-### Local
+### **Local**
 
 ```bash
 npm install -g artillery
@@ -117,3 +117,19 @@ Luego, reemplazar `<test-file>` por el nombre del archivo del test deseado a eje
 artillery run artillery/<test-file>.yml
 ```
 
+### *Opcional*:
+
+Generar reporte (agregar flag `--output filename.json`)
+
+Ejemplo:
+```bash
+artillery run --output report.json artillery/<test-file>.yml
+```
+
+Visualizar reporte
+
+```bash
+artillery report --output report.html report.json
+```
+
+Muchas metricas ya se proveen en grafana, pero pueden servir para comparar.
