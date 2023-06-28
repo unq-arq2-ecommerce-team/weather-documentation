@@ -29,7 +29,7 @@ groups:
     expr: circuit_breaker_status == 2
     for: 10s
     labels:
-      category: infrastructure
+      category: circuit_breaker
       severity: critical
     annotations:
       summary: "Circuit Beaker in {{ $labels.instance }} is open"
