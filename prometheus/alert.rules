@@ -5,6 +5,7 @@ groups:
     expr: up == 0
     for: 30s
     labels:
+      category: infrastructure
       severity: critical
     annotations:
       summary: "Monitor service non-operational"
@@ -16,10 +17,11 @@ groups:
     expr: probe_success == 0
     for: 10s
     labels:
+      category: infrastructure
       severity: critical
     annotations:
       summary: "Weather Service {{ $labels.instance }} is down"
-      description: "The service {{ $labels.instance }} is not responding to the Blackbox probe."
+      description: "The service {{ $labels.instance }} is not responding to the Blackbox liveness probe."
 
 - name: circuit_breaker
   rules:
@@ -27,6 +29,7 @@ groups:
     expr: circuit_breaker_status == 2
     for: 10s
     labels:
+      category: infrastructure
       severity: critical
     annotations:
       summary: "Circuit Beaker in {{ $labels.instance }} is open"
@@ -39,6 +42,7 @@ groups:
     expr: node_load1 > 1.5
     for: 30s
     labels:
+      category: infrastructure
       severity: warning
     annotations:
       summary: "Server under high load"
@@ -48,15 +52,17 @@ groups:
     expr: (sum(node_memory_MemTotal_bytes) - sum(node_memory_MemFree_bytes + node_memory_Buffers_bytes + node_memory_Cached_bytes) ) / sum(node_memory_MemTotal_bytes) * 100 > 85
     for: 30s
     labels:
+      category: infrastructure
       severity: warning
     annotations:
       summary: "Server memory is almost full"
       description: "Docker host memory usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}."
 
   - alert: high_storage_load
-    expr: (node_filesystem_size_bytes{fstype="aufs"} - node_filesystem_free_bytes{fstype="aufs"}) / node_filesystem_size_bytes{fstype="aufs"}  * 100 > 85
+    expr: (node_filesystem_size_bytes{fstype="aufs"} - node_filesystem_free_bytes{fstype="aufs"}) / node_filesystem_size_bytes{fstype="aufs"} * 100 > 85
     for: 30s
     labels:
+      category: infrastructure
       severity: warning
     annotations:
       summary: "Server storage is almost full"

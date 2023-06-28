@@ -76,9 +76,23 @@ Limpiar y clonar repos
 ./runServices.sh --clone
 ```
 
-4. Una vez levantados todos los containers, dirigirse a http://localhost:3000 para ingresar a grafana
+4. Una vez levantados todos los containers, se pueden ingresar a los siguientes servicios:
 
-5. Loggear con las credenciales: `admin / admin`
+| Servicio                      | Endpoint                              |
+| ----------------------------- | ------------------------------------- |
+| WeatherLoaderService Swagger  | http://localhost:8081/docs/index.html |
+| WeatherMetricsService Swagger | http://localhost:8082/docs/index.html |
+| Grafana                       | http://localhost:3000                 |
+| Prometheus                    | http://localhost:9090                 |
+
+Credenciales:
+
+```
+user: admin
+pass: admin
+```
+
+Nota: Si algun servicio no responde, revisar docker-compose.yml con sus puertos y salud del container.
 
 ## Ejecucion Tests de carga y métricas
 
@@ -102,3 +116,4 @@ Luego, reemplazar `<test-file>` por el nombre del archivo del test deseado a eje
 ```bash
 artillery run artillery/<test-file>.yml
 ```
+
