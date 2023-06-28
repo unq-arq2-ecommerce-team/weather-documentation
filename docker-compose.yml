@@ -7,6 +7,8 @@ networks:
 volumes:
   prometheus_data: {}
   grafana_data: {}
+  cache:
+    driver: local
 
 services:
 
@@ -30,6 +32,7 @@ services:
       - ./envs/env-weather-metrics-component.env
     depends_on:
       - weather-loader-component
+      - cache
     networks:
       - monitor-net
     labels:
@@ -193,3 +196,14 @@ services:
       - "9411"   # zipkin
     networks:
       - monitor-net
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass lqelGuT43CugUCsTlTvw9zygmQtBOSrr
+    networks:
+      - monitor-net
+    volumes: 
+      - cache:/data
