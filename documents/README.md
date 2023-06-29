@@ -12,3 +12,11 @@
 ## Diagrama de arquitectura
 
 ![img_diagrama_arquitectura](./assets/diagramas-arquitectura.png)
+
+
+
+## Grafana - Guia configuracion alerta para el apdex
+
+[Guia configuracion alerta para el apdex en Grafana](./grafana_alerta_config)
+
+[Directo al README](./grafana_alerta_config/README.md)

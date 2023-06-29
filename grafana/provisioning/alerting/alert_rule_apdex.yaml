@@ -1,0 +1,99 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: business
+      folder: business-rules
+      interval: 1m
+      rules:
+        - uid: c02308be-efb9-4eee-82da-1ae1ba58206d
+          title: Apdex Score Alert
+          condition: Es Menor a 0.55
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 3600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: "(\n  sum(irate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m]) > 0) by (job) +\n  (\n    sum(irate(http_request_duration_seconds_bucket{le=\"1\"}[2m]) > 0) by (job) - \n    sum(irate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m]) > 0) by (job)\n  ) / 2\n) / \nsum(irate(http_request_duration_seconds_count[2m]) > 0) by (job)\n"
+                interval: ""
+                intervalMs: 15000
+                legendFormat: Tiempo de respuesta
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: Apdex_Avg_Last_Hour
+              relativeTimeRange:
+                from: 3600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: mean
+                refId: Apdex_Avg_Last_Hour
+                type: reduce
+            - refId: Es Menor a 0.55
+              relativeTimeRange:
+                from: 3600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.55
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: Apdex_Avg_Last_Hour
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: Es Menor a 0.55
+                type: threshold
+          dashboardUid: ZgBkHNhMz
+          panelId: 6
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: ZgBkHNhMz
+            __panelId__: "6"
+            summary: In last hour, apdex average is below than 0.55 points
+          labels:
+            category: business
+            severity: critical
+          isPaused: false
