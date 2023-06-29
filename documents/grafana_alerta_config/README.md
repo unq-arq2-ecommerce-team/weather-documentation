@@ -7,6 +7,8 @@ Se realizó esta guia por la dificultad que se encuentra de editar y/o eliminar 
 
 ### 1) Configurar Contact Points
 
+["alermanager/config.yaml"](../../alertmanager/config.yml)
+
     A) Integracion con discord:
         
         - Webhook URL: https://discord.com/api/webhooks/1123740873990090782/EN05jIlHv5Hgr7588-R20fis2GPoqteCTq4aS3kvE4oL4SgMnj9dqODhGxivLIc_0usk
