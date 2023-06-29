@@ -1,13 +1,15 @@
+# Este yaml puede ser importado en la carpeta "grafana/provisioning/alerting", pero luego no va a poder ser eliminado ni editado
+# Queda el yaml a modo de documentacion de la alerta.
 apiVersion: 1
 groups:
     - orgId: 1
-      name: business
-      folder: business-rules
+      name: alert_business
+      folder: alert_business
       interval: 1m
       rules:
-        - uid: c02308be-efb9-4eee-82da-1ae1ba58206d
-          title: Apdex Score Alert
-          condition: Es Menor a 0.55
+        - uid: c1370949-5a90-463a-85de-8a9a59cbe46d
+          title: Apdex Score Alert below 0.64
+          condition: Es Menor a 0.64
           data:
             - refId: A
               relativeTimeRange:
@@ -19,7 +21,7 @@ groups:
                     type: prometheus
                     uid: PBFA97CFB590B2093
                 editorMode: code
-                expr: "(\n  sum(irate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m]) > 0) by (job) +\n  (\n    sum(irate(http_request_duration_seconds_bucket{le=\"1\"}[2m]) > 0) by (job) - \n    sum(irate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m]) > 0) by (job)\n  ) / 2\n) / \nsum(irate(http_request_duration_seconds_count[2m]) > 0) by (job)\n"
+                expr: "(\n  sum(rate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m])) by (job) +\n  (\n    sum(rate(http_request_duration_seconds_bucket{le=\"1\"}[2m])) by (job) - \n    sum(rate(http_request_duration_seconds_bucket{le=\"0.5\"}[2m])) by (job)\n  ) / 2\n) / \nsum(rate(http_request_duration_seconds_count[2m])) by (job)\n"
                 interval: ""
                 intervalMs: 15000
                 legendFormat: Tiempo de respuesta
@@ -54,8 +56,10 @@ groups:
                 maxDataPoints: 43200
                 reducer: mean
                 refId: Apdex_Avg_Last_Hour
+                settings:
+                    mode: dropNN
                 type: reduce
-            - refId: Es Menor a 0.55
+            - refId: Es Menor a 0.64
               relativeTimeRange:
                 from: 3600
                 to: 0
@@ -64,7 +68,7 @@ groups:
                 conditions:
                     - evaluator:
                         params:
-                            - 0.55
+                            - 0.64
                         type: lt
                       operator:
                         type: and
@@ -82,7 +86,7 @@ groups:
                 hide: false
                 intervalMs: 1000
                 maxDataPoints: 43200
-                refId: Es Menor a 0.55
+                refId: Es Menor a 0.64
                 type: threshold
           dashboardUid: ZgBkHNhMz
           panelId: 6
@@ -92,7 +96,7 @@ groups:
           annotations:
             __dashboardUid__: ZgBkHNhMz
             __panelId__: "6"
-            summary: In last hour, apdex average is below than 0.55 points
+            summary: In last hour, apdex average is below than 0.64 points
           labels:
             category: business
             severity: critical
