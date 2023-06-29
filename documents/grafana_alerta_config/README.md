@@ -27,9 +27,13 @@ Se realizó esta guia por la dificultad que se encuentra de editar y/o eliminar 
 ![Notification Policies](./notification_policies.png)
 
 
-### 3) Importar en grafana el alert rule del apdex del yaml ubicado en el presente repo `grafana\provisioning\alerts\alert_rule_apdex.yaml`
+### 3) Una vez que tenemos los receptores y su handleos de alertas configurados. Vamos a cargar las reglas de alertas, dirigiendonos al dashboard deseado, le damos a editar, luego vamos al tab "alert", le damos a crear al boton "Create alert rule from this panel" (cuidado: no todo dashboard puede aplicar, y tirara un error):
 
-Sino cargarlo manual con los siguientes campos:
+
+![create_alert_rule](create_alert_rule.png)
+
+
+### 4) Luego dentro pondremos la query deseada con sus opciones (si es el apdex, se pueden utilizar los datos provistos en texto como en imagenes, sino revisar que datos se desean):
 
 ```
 (
@@ -47,13 +51,13 @@ Nota: desestimar el "irate" y "> 0" en la query en la imagen, ya que con un filt
 
 ![alert_rule_1_apdex_img](./alert_rule_1_apdex.png)
 
-En el paso (4), agregar el annotation "Summary" con el siguiente texto:
+En el paso (4) de crear la alerta, agregar el annotation "Summary" con el siguiente texto:
 
 ```text
-In last hour, apdex average is below than 0.55 points
+In last hour, apdex average is below than minimum points
 ```
 
-Luego en el paso (5) agregar los "Labels":
+Luego en el paso (5) de crear la alerta, se debe agregar los "Labels" (si es apdex, sino a eleccion):
  - category = business
  - severity = critical
 
