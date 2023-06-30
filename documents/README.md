@@ -1,5 +1,7 @@
 # Documentación
 
+Se dejan algunos diagramas en el presente readme con sus archivos png o jpg en "assets", para facilitar la visualizacion y no depender del reporte de documentacion pdf.
+
 ## Enunciado
 
 [Enunciado del Trabajo Practico](./assets/enunciadoTP_Final_2023s1.pdf)
@@ -14,6 +16,7 @@
 [Guia configuracion alerta para el apdex en Grafana](./grafana_alerta_config)
 
 [Directo al README](./grafana_alerta_config/README.md)
+
 
 ## Diagrama de arquitectura
 
@@ -30,3 +33,14 @@
 ![img_diagrama-rango-avg-temp-dia.png](./assets/diagrama-rango-avg-temp-dia.png)
 
 Nota: Este caso es identico al de la semana, solo cambiando el rango de fechas de un dia a una semana.
+
+
+## Diagramas adicionales
+
+### Circuit-Breaker
+
+![diagrama-cb](./assets/diagrama-circuit-breaker.png)
+
+### Fallback
+
+![diagrama-fallback](./assets/diagrama-fallback.png)
