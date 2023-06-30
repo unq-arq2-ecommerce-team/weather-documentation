@@ -29,7 +29,7 @@ https://github.com/Einsteinish/Docker-Compose-Prometheus-and-Grafana
 
 ### Instrucciones
 
-1. Clonar el presente repositorio (si tira error de permisos, pedir credenciales) y ejecutar los siguientes pasos dentro de este. Es decir, en una terminal ejecutar: 
+#### 1) Clonar el presente repositorio (si tira error de permisos, pedir credenciales) y ejecutar los siguientes pasos dentro de este. Es decir, en una terminal ejecutar: 
 
 ```bash
 git clone https://github.com/unq-arq2-ecommerce-team/weather-documentation.git`
@@ -46,7 +46,7 @@ git clone https://github.com/unq-arq2-ecommerce-team/WeatherLoaderComponent
 git clone https://github.com/unq-arq2-ecommerce-team/WeatherMetricsComponent
 ```
 
-2. Modificar las envs de "./envs/env-{servicio}.env" de cada servicio con los datos correspondientes, o bien que matchee con la ruta especificada en el docker-compose (en el campo yaml "env_file"). Si estos archivos no existen el script runServices.sh los genera automaticamente, pero habria que validar si las envs son las correctas o deseadas (puertos, hosts, etc).
+#### 2) Modificar las envs de "./envs/env-{servicio}.env" de cada servicio con los datos correspondientes, o bien que matchee con la ruta especificada en el docker-compose (en el campo yaml "env_file"). Si estos archivos no existen el script runServices.sh los genera automaticamente, pero habria que validar si las envs son las correctas o deseadas (puertos, hosts, etc).
 
 Recomendacion: Cambiar en envs "localhost" con el nombre del servicio del docker-compose. Ejemplo:
 
@@ -56,7 +56,9 @@ products-orders-service recomendacion al usar docker-compose:
     WEATHER_CURRENT_TEMP_URL=http://weather-loader-component:8081/api/weather/city/{city}/temperature
 ```
 
-3. Ejecutar el script runServices.sh que ejecuta el docker-compose.yml (si no se ejecuto el paso 2, se pueden pasar el flag -c o --clone para clonar todos los repos, el script borra los directorios clonados si se selecciona esa opcion)
+ <u>Observacion</u>: Estas variables van a sobreescribir a las que se encuentran originalmente en la instanciacion de cada servicio con sus carpetas y archivos `"./.envs"` respectivamente (ej: `./WeatherLoaderComponent/.env`). Si no se agregan, se utilizaran las ya configuradas en el archivo mencionado por defecto en cada servicio.
+
+#### 3) Ejecutar el script runServices.sh que ejecuta el docker-compose.yml (si no se ejecuto el paso 2, se pueden pasar el flag `-c` o `--clone` para clonar todos los repos, el script borra los directorios clonados si se selecciona esa opcion)
 
 Dar permisos al script:
 
