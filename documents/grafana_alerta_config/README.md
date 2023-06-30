@@ -43,7 +43,7 @@ Se realizó esta guia por la dificultad que se encuentra de editar y/o eliminar 
     sum(rate(http_request_duration_seconds_bucket{le="0.5"}[2m])) by (job)
   ) / 2
 ) / 
-sum(rate(http_request_duration_seconds_count[2m]) > 0) by (job)
+sum(rate(http_request_duration_seconds_count[2m])) by (job)
 
 ```
 
