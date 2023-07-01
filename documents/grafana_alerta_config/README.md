@@ -5,6 +5,29 @@ Sirve principalmente para la alerta apdex, pero cambiando algunos campos puede s
 
 Se realizó esta guia por la dificultad que se encuentra de editar y/o eliminar alertas importadas.
 
+### 0) Cargar template Telegram
+
+Template name: "telegram_template_crit".
+
+Valor:
+```go
+{{ define "telegram_template_crit" }}
+  {{ if eq .Status "firing" }}🔥 {{ end }}{{ if eq .Status "resolved" }}✅ {{ end }}[{{ .Status | toUpper }}] {{ .CommonLabels.alertname }}
+
+  <b>Alert:</b> {{ .CommonLabels.alertname }}
+  {{ range .Alerts }}<b>Values:</b> {{ if len .Values }}{{ $first := true }}{{ range $refID, $value := .Values -}}
+    {{ if $first }}{{ $first = false }}{{ else }}, {{ end }}{{ $refID }}={{ $value }}{{ end -}}
+    {{ else }}[no value]{{ end }}
+  {{ if .Labels.severity }}<b>Severity:</b> {{ .Labels.severity | toUpper }}{{ end }}
+  {{ if .Annotations.summary }}<b>Summary:</b> {{ .Annotations.summary }}{{ end }}
+  {{ if .Annotations.description }}<b>Description:</b> {{ .Annotations.description }}{{ end }}
+  <b>Details:</b>
+          {{ range .Labels.SortedPairs }}- {{ .Name }}: <i>{{ .Value }}</i>
+          {{ end }}
+  {{ end }}
+{{ end }}
+```
+
 ### 1) Configurar Contact Points
 
 ["alermanager/config.yaml"](../../alertmanager/config.yml)
@@ -17,7 +40,7 @@ Se realizó esta guia por la dificultad que se encuentra de editar y/o eliminar 
 
         - BOT API Token: (en "telegram_receiver" campo "bot_token")
         - Chat ID: (en "telegram_receiver" campo "chat_id")
-        - Message: (en "telegram_receiver" campo "message")
+        - Message: {{ template "telegram_template_crit" . }} (teniendo el template cargado con el nombre correspondiente)
 
 ![Contact Points](./contact_points.png)
 
