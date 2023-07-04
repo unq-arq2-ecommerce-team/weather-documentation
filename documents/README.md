@@ -8,8 +8,7 @@ Se dejan algunos diagramas en el presente readme con sus archivos png o jpg en "
 
 ## Reporte de documentación
 
-(!!!Actualizar a version final!!!)
-[Reporte de documentación Beta](./assets/TP_Final_Documentacion_vBeta.pdf)
+[Reporte de documentación completo y detallado](./assets/TP_Final_Documentacion.pdf)
 
 ## Grafana - Guia configuracion alerta para el apdex
 
