@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "meln5674-mongodb-community",
-        "uid": "dc12f8c7-f439-4a4f-af70-b168b0697675"
+        "uid": "mongodb-community"
       },
       "fieldConfig": {
         "defaults": {
