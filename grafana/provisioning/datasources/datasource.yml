@@ -34,3 +34,4 @@ datasources:
       httpMethod: GET
       serviceMap:
         datasourceUid: prometheus
+

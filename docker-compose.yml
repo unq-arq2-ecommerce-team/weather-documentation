@@ -146,8 +146,7 @@ services:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
-      - "GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=meln5674-mongodb-community"
-      - "GF_INSTALL_PLUGINS=https://github.com/meln5674/grafana-mongodb-community-plugin/releases/download/v0.1.2/meln5674-mongodb-community.zip;meln5674-mongodb-community"
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=meln5674-mongodb-community
     restart: unless-stopped
     expose:
       - 3000
