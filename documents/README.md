@@ -10,6 +10,10 @@ Se dejan algunos diagramas en el presente readme con sus archivos png o jpg en "
 
 [Reporte de documentación completo y detallado](./assets/TP_Final_Documentacion.pdf)
 
+## Presentación Diapositivas PPTS
+
+[Presentación diapositivas ppts](./assets/PPTS-TP_Final-Presentacion.pdf)
+
 ## Grafana - Guia configuracion alerta para el apdex
 
 [Guia configuracion alerta para el apdex en Grafana](./grafana_alerta_config)
