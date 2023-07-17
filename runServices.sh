@@ -65,7 +65,7 @@ then
     # Set up default envs in files
     echo "WEATHER_CURRENT_TEMP_URL=http://weather-loader-component:8081/api/weather/city/{city}/temperature" >> "./envs/env-weather-metrics-component.env"
     echo "WEATHER_AVG_TEMP_URL=http://weather-loader-component:8081/api/weather/city/{city}/temperature/average" >> "./envs/env-weather-metrics-component.env"
-    echo "REDIS_URI=redis://default:lqelGuT43CugUCsTlTvw9zygmQtBOSrr@redis:6379" >> "./envs/env-weather-metrics-component.env"
+    echo "REDIS_URI=redis://default:<REDIS_PASSWORD>@redis:6379" >> "./envs/env-weather-metrics-component.env"
     echo "[INFO] envs file created with some default values for docker-compose"
 else
     # Skip default envs
